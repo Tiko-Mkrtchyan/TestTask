@@ -1965,7 +1965,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5444192668119486043}
   - component: {fileID: 6404474782713569663}
-  - component: {fileID: 3116528383094574435}
+  - component: {fileID: 3314745346962724694}
+  - component: {fileID: 4554802368169670164}
+  - component: {fileID: 5044585357595641855}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2019,7 +2021,57 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3116528383094574435
+--- !u!54 &3314745346962724694
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667550896463025377}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &4554802368169670164
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667550896463025377}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.22
+  m_Height: 1.63
+  m_Direction: 1
+  m_Center: {x: -0.03, y: 0.64, z: 0.12}
+--- !u!114 &5044585357595641855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2028,9 +2080,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4667550896463025377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa70ce17d5fa01b4b96c924b59eb3f90, type: 3}
+  m_Script: {fileID: 11500000, guid: c47339659e79c6d4da99038e405f7682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnSpeed: 90
+  walkSpeed: 6
+  died: 0
+  money: 20
 --- !u!1 &4735175338338114452
 GameObject:
   m_ObjectHideFlags: 0
