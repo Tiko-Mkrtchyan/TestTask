@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using DG.Tweening;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -13,16 +14,28 @@ namespace Player
         [SerializeField] private float turnSpeed;
         [SerializeField] private float walkSpeed;
         [SerializeField] private TextMeshProUGUI hintText;
-        [SerializeField] private GameManager gameManager;
-        [SerializeField] private AudioSource audioSource;
-        [SerializeField] private AudioClip coinSound;
-        [SerializeField] private AudioClip bottleSound;
-        [SerializeField] private AudioClip stepSound;
+        [SerializeField] private TextMeshProUGUI moneyText;
         [SerializeField] private TextMeshProUGUI coinText;
         [SerializeField] private TextMeshProUGUI bottleText;
+        [SerializeField] private TextMeshProUGUI statusText;
+        [SerializeField] private TextMeshProUGUI winText;
+        [SerializeField] private TextMeshProUGUI lvlText;
+        [SerializeField] private GameManager gameManager;
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioSource stepAudioSource;
+        [SerializeField] private AudioClip coinSound;
+        [SerializeField] private AudioClip finishSound;
+        [SerializeField] private AudioClip bottleSound;
+        [SerializeField] private AudioClip stepSound;
+        [SerializeField] private AudioClip checkPointSound;
+        [SerializeField] private AudioClip poorDoorAudio;
+        [SerializeField] private AudioClip descentDoorAudio;
+        [SerializeField] private AudioClip richDoorAudio;
+        [SerializeField] private AudioClip millionDoorAudio;
         [SerializeField] private GameObject avatarCasual;
         [SerializeField] private GameObject avatarMiddle;
         [SerializeField] private GameObject avatarBling;
+        [SerializeField] private Image fillBar;
 
         private Animator _playerAnimator;
         private event Action OnMoneyCollected;
@@ -47,7 +60,9 @@ namespace Player
 
         private void Awake()
         {
-            _coinTextStartPosition=coinText.rectTransform.anchoredPosition;
+            lvlText.text = "Level 1";
+            winText.gameObject.SetActive(false);
+            _coinTextStartPosition = coinText.rectTransform.anchoredPosition;
             _bottleTextPosition = bottleText.rectTransform.anchoredPosition;
             coinText.gameObject.SetActive(false);
             bottleText.gameObject.SetActive(false);
@@ -60,6 +75,38 @@ namespace Player
 
         private void Update()
         {
+            moneyText.text = money.ToString();
+            fillBar.fillAmount = money / 100f;
+            statusText.color=fillBar.color;
+            
+            if (fillBar.fillAmount <= 0.2f)
+            {
+                fillBar.color = Color.red;
+                statusText.text = "Бедный";
+            }
+
+            if (fillBar.fillAmount >= 0.50)
+            {
+                fillBar.color = Color.green;
+                statusText.text = "Состоятельный";
+                avatarCasual.SetActive(false);
+                avatarMiddle.SetActive(true);
+            }
+
+            if (fillBar.fillAmount >= 0.90)
+            {
+                fillBar.color = Color.yellow;
+                statusText.text = "Богатый";
+                avatarMiddle.SetActive(false);
+                avatarBling.SetActive(true);
+            }
+
+            if (fillBar.fillAmount >= 1.0f)
+            {
+                fillBar.gameObject.SetActive(false);
+                StartCoroutine(WaitToDestroy(statusText.gameObject));
+            }
+
             if (!died && gameStarted)
             {
                 HandleTurning();
@@ -137,7 +184,43 @@ namespace Player
 
             if (other.gameObject.CompareTag("Door"))
             {
+                PlayAudio(poorDoorAudio);
                 other.GetComponent<Animator>().enabled = true;
+            }
+
+            if (other.gameObject.CompareTag("DoorRich"))
+            {
+                PlayAudio(richDoorAudio);
+                other.GetComponent<Animator>().enabled = true;
+            }
+
+            if (other.gameObject.CompareTag("DoorMillion"))
+            {
+                PlayAudio(millionDoorAudio);
+                other.GetComponent<Animator>().enabled = true;
+            }
+
+            if (other.gameObject.CompareTag("DoorDescent"))
+            {
+                PlayAudio(descentDoorAudio);
+                other.GetComponent<Animator>().enabled = true;
+            }
+
+            if (other.gameObject.CompareTag("CheckPoint"))
+            {
+                PlayAudio(checkPointSound);
+                other.GetComponent<Animator>().enabled = true;
+            }
+
+            if (other.gameObject.CompareTag("Finish"))
+            {
+                gameStarted = false;
+                _playerAnimator.SetBool("Win",true);
+                PlayAudio(finishSound);
+                winText.gameObject.SetActive(true);
+                winText.rectTransform.DOAnchorPosY(winText.rectTransform.anchoredPosition.y - 250, 2);
+                lvlText.text = "LEVEL COMPLETE!";
+
             }
         }
 
@@ -151,17 +234,6 @@ namespace Player
             coinText.rectTransform.DOAnchorPosY(coinText.rectTransform.anchoredPosition.y + 30, 0.5f);
             StartCoroutine(WaitToDestroy(coinText.gameObject));
             coinText.rectTransform.anchoredPosition = _coinTextStartPosition;
-            if (money>=60)
-            {
-                avatarCasual.SetActive(false);
-                avatarMiddle.SetActive(true);
-            }
-
-            if (money>=90)
-            {
-                avatarMiddle.SetActive(false);
-                avatarBling.SetActive(true);
-            }
         }
 
         private void CollectBottle()
@@ -194,8 +266,8 @@ namespace Player
         {
             if (stepSound != null)
             {
-                audioSource.clip = stepSound;
-                audioSource.Play();
+                stepAudioSource.clip = stepSound;
+                stepAudioSource.Play();
             }
         }
 

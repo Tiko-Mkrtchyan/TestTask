@@ -7,6 +7,10 @@ TagManager:
   - Bottle
   - Bill
   - Door
+  - DoorRich
+  - DoorMillion
+  - DoorDescent
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
