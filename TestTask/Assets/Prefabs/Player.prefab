@@ -943,7 +943,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5175537608574396907}
   - component: {fileID: 5770435377599430331}
-  - component: {fileID: 9188537182034369736}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1017,14 +1016,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &9188537182034369736
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2849622911699405954}
-  m_Enabled: 1
 --- !u!1 &2884404602530967635
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,8 +2076,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 90
   walkSpeed: 6
+  hintText: {fileID: 0}
+  gameManager: {fileID: 0}
+  clip1: {fileID: 0}
+  clip2: {fileID: 0}
   died: 0
   money: 20
+  gameStarted: 0
 --- !u!1 &4735175338338114452
 GameObject:
   m_ObjectHideFlags: 0
